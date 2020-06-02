@@ -13,12 +13,12 @@ samples = db["samples"]
 
 
 @app.route("/show/<name>",methods=["GET"])
-def show_all(name):
+def show(name):
     value = r.get(name=name)
 
     if(value is None ):
 
-        data = samples.find({name=name})
+        data = samples.find({"name":name})
         mongo_data=[]
         for item in data:
             mongo_data.append({
@@ -38,7 +38,7 @@ def show_all(name):
 
 @app.route("/show",methods=["GET"])
 def show_all():
-    data = samples.find({name=name})
+    data = samples.find({})
     mongo_data=[]
     for item in data:
         mongo_data.append({
@@ -55,7 +55,7 @@ def add_data():
     samples.insert({
         "name": data["name"],
         "price": data["price"],
-        "time": datetime.datetime.now()
+        "time": datetime.now()
     })
 
     ret={
