@@ -22,19 +22,21 @@ def show(name):
         mongo_data=[]
         for item in data:
             mongo_data.append({
+                "msg": "Calling from Database",
                 "name": item["name"],
                 "price": item["price"],
                 "time": item["time"]
             })
-        r.set({
-                "name": item["name"],
-                "price": item["price"],
-                "time": item["time"]
-            })
+        r.set(
+                 name= item["name"],
+                 price= item["price"],
+                 time= item["time"]
+            )
+        return jsonify(mongo_data)
     else:
         return jsonify(value)
         
-    return jsonify(mongo_data)
+    
 
 @app.route("/show",methods=["GET"])
 def show_all():
