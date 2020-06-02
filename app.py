@@ -17,7 +17,7 @@ def show(name):
     value = r.get(name=name)
 
     if(value is None ):
-
+        print("Calling from DataBase")
         data = samples.find({"name":name})
         mongo_data=[]
         for item in data:
@@ -27,11 +27,7 @@ def show(name):
                 "price": item["price"],
                 "time": item["time"]
             })
-        r.set(
-                 name= item["name"],
-                 price= item["price"],
-                 time= item["time"]
-            )
+            r.set(name=item["name"],value=str(item["_id"]))
         return jsonify(mongo_data)
     else:
         return jsonify(value)
@@ -43,7 +39,9 @@ def show_all():
     data = samples.find({})
     mongo_data=[]
     for item in data:
+        #print(item)
         mongo_data.append({
+            "_id": item["_id"],
             "name": item["name"],
             "price": item["price"],
             "time": item["time"]
