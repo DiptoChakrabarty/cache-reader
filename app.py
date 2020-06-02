@@ -16,15 +16,24 @@ samples = db["samples"]
 def show_all(name):
     value = r.get(name=name)
 
-    if(val is None )
-    data = samples.find({name=name})
-    mongo_data=[]
-    for item in data:
-        mongo_data.append({
-            "name": item["name"],
-            "price": item["price"],
-            "time": item["time"]
-        })
+    if(value is None ):
+
+        data = samples.find({name=name})
+        mongo_data=[]
+        for item in data:
+            mongo_data.append({
+                "name": item["name"],
+                "price": item["price"],
+                "time": item["time"]
+            })
+        r.set({
+                "name": item["name"],
+                "price": item["price"],
+                "time": item["time"]
+            })
+    else:
+        return jsonify(value)
+        
     return jsonify(mongo_data)
 
 @app.route("/show",methods=["GET"])
