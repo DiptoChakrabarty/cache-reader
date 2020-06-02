@@ -14,9 +14,10 @@ samples = db["samples"]
 
 @app.route("/show/<name>",methods=["GET"])
 def show(name):
-    value = r.get(name=name)
+    print("Check in Redis")
+    val = r.get(name=name)
 
-    if(value is None ):
+    if(val is None ):
         print("Calling from DataBase")
         data = samples.find({"name":name})
         mongo_data=[]
@@ -30,7 +31,9 @@ def show(name):
             r.set(name=item["name"],value=str(item["_id"]))
         return jsonify(mongo_data)
     else:
-        return jsonify(value)
+        print("Redis Data")
+        print(val)
+        return str(val)
         
     
 
