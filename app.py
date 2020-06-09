@@ -1,7 +1,7 @@
 from flask import Flask,jsonify,request
 from pymongo import MongoClient
 from datetime import datetime
-import redis 
+import redis ,json
 
 
 app=Flask(__name__)
@@ -28,7 +28,12 @@ def show(name):
                 "price": item["price"],
                 "time": item["time"]
             })
-            r.set(name=item["name"],value=str(item["_id"]))
+            r.set(item["name"],json.dumps({
+                "msg": "Calling from Redis",
+                "name": item["name"],
+                "price": item["price"],
+                "time": item["time"]
+            }))
         return jsonify(mongo_data)
     else:
         print("Redis Data")
@@ -40,11 +45,12 @@ def show(name):
 @app.route("/show",methods=["GET"])
 def show_all():
     data = samples.find({})
+    #print(data)
     mongo_data=[]
     for item in data:
         #print(item)
         mongo_data.append({
-            "_id": item["_id"],
+            "_id": str(item["_id"]),
             "name": item["name"],
             "price": item["price"],
             "time": item["time"]
