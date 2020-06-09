@@ -26,13 +26,13 @@ def show(name):
                 "msg": "Calling from Database",
                 "name": item["name"],
                 "price": item["price"],
-                "time": item["time"]
+                "time": str(item["time"])
             })
             r.set(item["name"],json.dumps({
                 "msg": "Calling from Redis",
                 "name": item["name"],
                 "price": item["price"],
-                "time": item["time"]
+                "time": str(item["time"])
             }))
         return jsonify(mongo_data)
     else:
