@@ -5,7 +5,7 @@ import redis ,json
 
 
 app=Flask(__name__)
-r = redis.Redis(host="0.0.0.0",port=6379)
+red = redis.Redis(host="0.0.0.0",port=6379)
 
 client = MongoClient("mongodb://localhost:27017")
 db = client.sample
@@ -15,7 +15,7 @@ samples = db["samples"]
 @app.route("/show/<name>",methods=["GET"])
 def show(name):
     print("Check in Redis")
-    val = r.get(name=name)
+    val = red.get(name=name)
 
     if(val is None ):
         print("Calling from DataBase")
@@ -28,7 +28,7 @@ def show(name):
                 "price": item["price"],
                 "time": str(item["time"])
             })
-            r.set(item["name"],json.dumps({
+            red.set(item["name"],json.dumps({
                 "msg": "Calling from Redis",
                 "name": item["name"],
                 "price": item["price"],
@@ -37,8 +37,11 @@ def show(name):
         return jsonify(mongo_data)
     else:
         print("Redis Data")
-        print(val)
-        return str(val)
+        #val = val.replace("b","")
+        #print("Val value")
+        val=val.decode("utf-8")
+        #print(val)
+        return val
         
     
 
