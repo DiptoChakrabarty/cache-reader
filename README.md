@@ -12,7 +12,7 @@
 
  ```
 
- ### How to run the prject 
+ ### How to run the project 
 
  ```sh
  * git clone https://github.com/DiptoChakrabarty/cache-reader.git
@@ -20,5 +20,29 @@
  * source venv bin activate
  * pip3 install -r requirements.txt
  * python3 app.py 
- 
+
+ ```
+
+ ### Enpoints Present
+
+ ```sh
+
+  - /show  GET
+
+   Shows all data present in the DataBase 
+
+   - /show/<product name> GET
+
+   Shows information about that  product only 
+
+    - /add    POST
+
+    Add a product to the database
+
+    {
+        "name": <produc_name>,
+        "price": <product_price>
+        
+    }
+
  ```
